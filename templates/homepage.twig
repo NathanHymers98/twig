@@ -1,0 +1,48 @@
+{% extends 'layout.twig' %}
+
+{% import 'macros.twig' as myMacros %}
+
+{% block title 'Start looking fly! '~pageData.title %}
+
+{% block body %}
+{#
+    This is the best template evaaaaaaar!!!!!!
+#}
+
+<div class="hero-unit">
+    <h1>{{ pageData.title }}</h1> {# Displaying the title by targeting the pageData variable that is being passed to this template in index.php
+                                    This is the same for any pageData.<variable name here> #}
+    <p>
+        {{ pageData.summary|raw }}
+    </p>
+
+    {% if pageData.hasSale %}
+    <div class="sale-ends-at">
+        Sale Ends: {{ saleEndsAt|date('D M jS ga') }}
+    </div>
+    {% endif %}
+</div>
+
+{{ include('_banner.twig', { 'backgroundColor': 'violet' }) }}
+
+<div class="row">
+    {{ myMacros.printProducts(featuredProducts, "Storm at the south pole - nothing on sale now!") }} {# Here I am calling the Macro printProducts and passing it the featuredProudcts collection and a message just in case there are no items in the array#}
+</div>
+
+<div class="row">
+    {{ myMacros.printProducts(products, "Oh now! We're all out of super-awesome penguin clothes!") }} {# Doing the same as above, except this time passing in a different array and giving a different message, but both work in the same way, just with different data being passed to it#}
+</div>
+
+{% if products|length is even %} {# Checks to see if the amount of products is an even number. The Length filter counts how many products there are in the collection
+                                    If it is even, then it will display the code shown below, if not it will display an error#}
+    <div class="row">
+        <div class="span12">
+            There is an even number of products! OMG!
+        </div>
+    </div>
+{% endif %}
+
+{#<div>#}
+    {#&copy; {{ 'now'|date('Y') }}#}
+{#</div>#}
+{% endblock %}
